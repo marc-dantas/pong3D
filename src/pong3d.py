@@ -1,6 +1,8 @@
 from ursina import *
 from ursina.shaders import lit_with_shadows_shader
 
+DIRECTION = Vec3(3.5, 0, 3.5)
+
 game = Ursina(title="Pong3D", borderless=False,
               size=(800, 600), development_mode=False)
 
@@ -32,7 +34,7 @@ bottom_wall = duplicate(top_wall, position=(0, .5, -7))
 
 bottom_paddle = duplicate(top_paddle, position=(0, .5, -7))
 
-ball = Entity(direction=Vec3(3.5, 0, 3.5), model="sphere",
+ball = Entity(direction=DIRECTION, model="sphere",
               color=color.white, scale=.5, position=(0, .4, 0),
               collider="box")
 
@@ -45,8 +47,6 @@ MAX_SCORE = 5
 
 score_text = Text(text=f"P1 {p1}x{p2} P2", color=color.black, position=(
     0, .4), origin=(0, 0), scale=2)
-start_message = Text(text=f"Press [SPACE] to resume", color=color.black, position=(
-    0, 0), origin=(0, 0), scale=3)
 
 hit = Audio("assets/hit.wav", autoplay=False)
 point = Audio("assets/point.wav", autoplay=False)
@@ -67,16 +67,15 @@ def update():
         if collision.entity in (top_paddle, bottom_paddle):
             hit.play()
             ball.direction.z *= -1
+            ball.direction *= 1.1
         elif collision.entity in (right_wall, left_wall):
             hit.play()
             ball.direction.x *= -1
 
         if collision.entity == top_wall:
-            point.play()
             p1 += 1
             reset()
         elif collision.entity == bottom_wall:
-            point.play()
             p2 += 1
             reset()
 
@@ -89,29 +88,24 @@ def update():
 
 def reset():
     global paused
+    point.play()
     paused = False
     ball.position = (0, .4, 0)
-    ball.direction = Vec3(2, 0, 2)
+    ball.direction = DIRECTION
     score_text.text = f"P1 {p1}x{p2} P2"
 
 
 def game_over():
     global p1, p2, paused
     paused = True
-    msg = Text("GAME OVER", position=(0, 0),
-               origin=(0, 0), scale=3, color=color.red)
-
     p1 = 0
     p2 = 0
     invoke(reset, delay=3)
-    invoke(msg.disable)
 
 
 def input(key):
     global paused
     if key == "space":
-        if paused:
-            start_message.disable()
         paused = not paused
     if key == "escape":
         game.destroy()
