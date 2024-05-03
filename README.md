@@ -1,12 +1,5 @@
 # I FINALLY UPDATED IT
-This is Pong3D a remake of an old project. It is a 
-
-## 3d-py-pong
-A 3D Pong game made in Python.
-
-- This game was made in the Ursina Engine library (in Python 3.9);
-- This project exists for learning purposes, this was my first project at Ursina;
-- This project is a test project, to evaluate the Ursina Engine, and its ease of development.
+This is Pong3D. A remake of an old project. It is a very simple 3D Pong game made in Python.
 
 ## Setup and Play
 This game is written in Python. So you need the latest Python Interpreter installed.
