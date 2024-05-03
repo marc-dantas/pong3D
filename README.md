@@ -17,6 +17,12 @@ To play Pong3D, just run the Python script at the `src` folder:
 ```console
 $ python src/pong3d.py
 ```
+**Controls**
+
+- Use the `[←]` and `[→]` keys to control Player 1
+- Use the `[A]` and `[D]` keys to control Player 2
+- Press `[SPACE]` to pause or unpause the game
+- Press `[ESCAPE]` to quit the game
 
 ## Old version
 You can also play the old version of the game. It's source code is in the [`ordsrc` folder](./oldsrc/) inside the repository.
