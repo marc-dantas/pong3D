@@ -1,6 +1,8 @@
 # I FINALLY UPDATED IT
 This is Pong3D. A remake of an old project. It is a very simple 3D Pong game made in Python.
 
+![Pong3D Screenshot](./screenshot.png)
+
 ## Setup and Play
 This game is written in Python. So you need the latest Python Interpreter installed.
 
