@@ -11,8 +11,6 @@ p2_score = 0
 hit_sound = None
 point_sound = None
 background_music = None
-score_text = None
-game_over_text = None
 
 top_paddle = None
 bottom_paddle = None
@@ -21,9 +19,10 @@ left_wall = None
 right_wall = None
 top_wall = None
 bottom_wall = None
-restart_button = None
+
 main_panel = None
 game_over_panel = None
+score_text = None
 
 
 def setup_window():
@@ -55,16 +54,32 @@ def create_entities():
 
 
 def create_paddle(position, color):
-    return Entity(color=color, shader=lit_with_shadows_shader, model="cube", scale=(3, .5, .5), position=position, collider="box", texture="white_cube")
+    return Entity(color=color,
+                  shader=lit_with_shadows_shader,
+                  model="cube",
+                  scale=(3, .5, .5),
+                  position=position,
+                  collider="box",
+                  texture="white_cube")
 
 
 def create_wall(position, rotation, visible=True):
-    return Entity(model="cube", shader=lit_with_shadows_shader, color=color.white10, scale=(14, 1, .1), position=position, rotation=rotation, collider="box", visible=visible)
+    return Entity(model="cube",
+                  shader=lit_with_shadows_shader,
+                  color=color.white10,
+                  scale=(14, 1, .1),
+                  position=position,
+                  rotation=rotation,
+                  collider="box",
+                  visible=visible)
 
 
 def create_lighting():
     light = Entity()
-    DirectionalLight(parent=light, y=2, z=3, shadows=True, rotation=(45, -45, 45))
+    DirectionalLight(parent=light,
+                     y=2, z=3,
+                     shadows=True,
+                     rotation=(45, -45, 45))
 
 
 def create_ui():
@@ -78,8 +93,9 @@ def create_ui():
             Button(text="Play", color=color.blue, on_click=start_game),
             Button(text="Quit", color=color.red, on_click=application.quit),
         ),
+        popup=True,
     )
-    main_panel.y = main_panel.panel.scale_y / 2 * main_panel.scale_y    # center the window panel
+    main_panel.y = main_panel.panel.scale_y / 2 * main_panel.scale_y
     main_panel.layout()
     
     game_over_panel = WindowPanel(
@@ -88,12 +104,18 @@ def create_ui():
             Button(text="Restart Game", color=color.orange, scale=(.2, .1), position=(0, -.05), on_click=restart_game),
             Button(text="Quit", color=color.red, on_click=application.quit),
         ),
+        popup=True,
         enabled=False,
     )
-    game_over_panel.y = game_over_panel.panel.scale_y / 2 * game_over_panel.scale_y    # center the window panel
+    game_over_panel.y = game_over_panel.panel.scale_y / 2 * game_over_panel.scale_y
     game_over_panel.layout()
 
-    score_text = Text(text=f"P1 {p1_score}x{p2_score} P2", color=color.white, position=(0, .45), origin=(0, 0), enabled=False, scale=2)
+    score_text = Text(text=f"P1 {p1_score}x{p2_score} P2",
+                      color=color.white,
+                      position=(0, .45),
+                      origin=(0, 0),
+                      enabled=False,
+                      scale=2)
 
 
 def update():
