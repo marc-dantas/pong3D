@@ -22,6 +22,7 @@ bottom_wall = None
 
 main_panel = None
 game_over_panel = None
+pause_menu = None
 score_text = None
 
 
@@ -39,13 +40,14 @@ def create_audio():
 
 
 def create_entities():
-    global table, top_paddle, bottom_paddle, ball, left_wall, right_wall, top_wall, bottom_wall
-
+    global top_paddle, bottom_paddle, ball, left_wall, right_wall, top_wall, bottom_wall
+    ball_mesh = load_model("assets/mesh/ball.obj")
+    
     Entity(model="cube", shader=lit_with_shadows_shader, color=color.blue, scale=(10, .2, 14), position=(0, 0, 0), texture="white_cube")
     Entity(model="cube", color=color.blue, scale=(10, .2, .1), position=(0, 0))
     top_paddle = create_paddle(position=(0, .4, 7), color=color.red)
     bottom_paddle = create_paddle(position=(0, .5, -7), color=color.red)
-    ball = Entity(direction=DIRECTION, model="sphere", color=color.white, scale=.5, position=(0, .4, 0), collider="box")
+    ball = Entity(direction=DIRECTION, model=ball_mesh, color=color.white, scale=.2, position=(0, .4, 0), collider="box")
 
     left_wall = create_wall(position=(5, .5, 0), rotation=(0, 90, 0))
     right_wall = create_wall(position=(-5, .5, 0), rotation=(0, 90, 0))
@@ -83,7 +85,7 @@ def create_lighting():
 
 
 def create_ui():
-    global score_text, main_panel, game_over_panel
+    global score_text, main_panel, game_over_panel, pause_menu
 
     Text.default_font = "assets/font/PlusJakartaSans-ExtraBold.ttf"
 
@@ -109,6 +111,19 @@ def create_ui():
     )
     game_over_panel.y = game_over_panel.panel.scale_y / 2 * game_over_panel.scale_y
     game_over_panel.layout()
+    
+    pause_menu = WindowPanel(
+        title="Paused",
+        content=(
+            Button(text="Resume", color=color.blue, scale=(.2, .1), position=(0, -.05), on_click=resume_game),
+            Button(text="Restart Game", color=color.orange, scale=(.2, .1), position=(0, -.05), on_click=restart_game),
+            Button(text="Quit", color=color.red, on_click=application.quit),
+        ),
+        popup=True,
+        enabled=False,
+    )
+    pause_menu.y = pause_menu.panel.scale_y / 2 * pause_menu.scale_y
+    pause_menu.layout()
 
     score_text = Text(text=f"P1 {p1_score}x{p2_score} P2",
                       color=color.white,
@@ -134,7 +149,7 @@ def update_paddles():
 def update_ball():
     global p1_score, p2_score
 
-    ball.position += ball.direction * time.dt
+    ball.position += ball.direction * time.dt * 1.5
     collision = ball.intersects()
 
     if collision.hit:
@@ -194,13 +209,23 @@ def restart_game():
     global paused
     paused = False
     game_over_panel.disable()
+    pause_menu.disable()
     reset_ball()
     update_score_text()
 
 
+def resume_game():
+    global paused
+    paused = False
+    pause_menu.disable()
+
+
 def input(key):
+    global paused
     if key == "escape":
-        application.quit()
+        if not main_panel.enabled and not game_over_panel.enabled:
+            paused = not paused
+            pause_menu.enabled = not pause_menu.enabled
 
 
 def main(title: str, size: Tuple[int, int]):
