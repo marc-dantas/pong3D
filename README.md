@@ -24,11 +24,11 @@ $ python src/pong3d.py
 ```
 
 ### Controls
-| **Control**                      | **Description** |
-| -------------                    | --------------- |
-| `ESC`                            | Exit game       |
-| `W`/`S`                          | Move paddle P2  |
-| `LEFT ARROW`/`RIGHT ARROW`       | Move paddle P1  |
+| **Control**                      | **Description**    |
+| -------------                    | ---------------    |
+| `ESC`                            | Pause/unpause game |
+| `W`/`S`                          | Move paddle P2     |
+| `LEFT ARROW`/`RIGHT ARROW`       | Move paddle P1     |
 
 ## Old version
 You can also play the old version of the game. It's source code is in the [`oldsrc` folder](./oldsrc/) inside the repository.
