@@ -2,8 +2,8 @@ from ursina import *
 from ursina.shaders import lit_with_shadows_shader
 from typing import Tuple
 
-DIRECTION = Vec3(3.5, 0, 3.5)
 MAX_SCORE = 5
+VELOCITY = 5.0
 
 paused = True
 p1_score = 0
@@ -47,7 +47,7 @@ def create_entities():
     Entity(model="cube", color=color.blue, scale=(10, .2, .1), position=(0, 0))
     top_paddle = create_paddle(position=(0, .4, 7), color=color.red)
     bottom_paddle = create_paddle(position=(0, .5, -7), color=color.red)
-    ball = Entity(direction=DIRECTION, model=ball_mesh, color=color.white, scale=.2, position=(0, .4, 0), collider="box")
+    ball = Entity(direction=Vec3(1, 0, 1), model=ball_mesh, color=color.white, scale=.2, position=(0, .4, 0), collider="box")
 
     left_wall = create_wall(position=(5, .5, 0), rotation=(0, 90, 0))
     right_wall = create_wall(position=(-5, .5, 0), rotation=(0, 90, 0))
@@ -149,7 +149,7 @@ def update_paddles():
 def update_ball():
     global p1_score, p2_score
 
-    ball.position += ball.direction * time.dt * 1.5
+    ball.position += ball.direction * VELOCITY * time.dt
     collision = ball.intersects()
 
     if collision.hit:
@@ -183,7 +183,7 @@ def check_score(entity):
 
 def reset_ball():
     ball.position = (0, .4, 0)
-    ball.direction = DIRECTION
+    ball.direction = Vec3(1, 0, 1)
 
 
 def update_score_text():
