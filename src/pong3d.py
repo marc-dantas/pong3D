@@ -206,7 +206,9 @@ def start_game():
 
 
 def restart_game():
-    global paused
+    global paused, p1_score, p2_score
+    p1_score = 0
+    p2_score = 0
     paused = False
     game_over_panel.disable()
     pause_menu.disable()
